@@ -28,28 +28,28 @@ public class BaseActivity extends AppCompatActivity {
 
     public void setBaseContent(int layoutId,Class<? extends BaseVM> modelClass) {
         binding = DataBindingUtil.setContentView(this, layoutId);
-        baseVM = ViewModelProviders.of(this).get(modelClass);
-        Observer<BaseBean> beanObserver = new Observer<BaseBean>() {
-            @Override
-            public void onChanged(@Nullable BaseBean baseBean) {
-                // TabClass tabClass = (TabClass) baseBean;
-                //binding.setBean(tabClass);
-                binding.setVariable(BR.bean, baseBean);
-            }
-        };
-        baseVM.getSimpleBean().observe(this, beanObserver);
+        if(modelClass!=null){
+            baseVM = ViewModelProviders.of(this).get(modelClass);
+            Observer<BaseBean> beanObserver = new Observer<BaseBean>() {
+                @Override
+                public void onChanged(@Nullable BaseBean baseBean) {
+                    // TabClass tabClass = (TabClass) baseBean;
+                    //binding.setBean(tabClass);
+                    binding.setVariable(BR.bean, baseBean);
+                }
+            };
+            baseVM.getSimpleBean().observe(this, beanObserver);
+            baseVM.loadSimpleBean();
 
+            Observer<List<BaseBean>> listObsever=new Observer<List<BaseBean>>() {
+                @Override
+                public void onChanged(@Nullable List<BaseBean> baseBeans) {
 
-        Observer<List<BaseBean>> listObsever=new Observer<List<BaseBean>>() {
-            @Override
-            public void onChanged(@Nullable List<BaseBean> baseBeans) {
-
-            }
-        };
-        baseVM.getListBeans().observe(this,listObsever);
-
-        baseVM.loadSimpleBean();
-        baseVM.loadListBeans();
+                }
+            };
+            baseVM.getListBeans().observe(this,listObsever);
+            baseVM.loadListBeans();
+        }
     }
 
 
