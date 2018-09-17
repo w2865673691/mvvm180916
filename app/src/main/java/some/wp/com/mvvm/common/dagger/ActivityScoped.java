@@ -1,7 +1,5 @@
 package some.wp.com.mvvm.common.dagger;
 
-import com.example.android.architecture.blueprints.todoapp.di.AppComponent;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

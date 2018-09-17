@@ -1,4 +1,6 @@
 package some.wp.com.mvvm.view;
 
-public class BaseFragment {
+import dagger.android.support.DaggerFragment;
+
+public class BaseFragment extends DaggerFragment {
 }

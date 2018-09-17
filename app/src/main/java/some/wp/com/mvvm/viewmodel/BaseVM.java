@@ -8,11 +8,11 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import some.wp.com.mvvm.taskmodel.BaseBean;
-import some.wp.com.mvvm.taskmodel.beans.TabClass;
 
 public class BaseVM extends AndroidViewModel {
     protected MutableLiveData<List<BaseBean>> listBeans;
     protected MutableLiveData<BaseBean> simpleBean;
+    private static Object object = new Object();
 
     public BaseVM(@NonNull Application application) {
         super(application);
@@ -20,24 +20,30 @@ public class BaseVM extends AndroidViewModel {
 
     public MutableLiveData<BaseBean> getSimpleBean() {
         if (simpleBean == null) {
-            simpleBean = new MutableLiveData<BaseBean>();
+            synchronized (object) {
+                if (simpleBean == null) {
+                    simpleBean = new MutableLiveData<BaseBean>();
+                }
+            }
         }
         return simpleBean;
     }
 
     public MutableLiveData<List<BaseBean>> getListBeans() {
         if (listBeans == null) {
-            listBeans = new MutableLiveData<List<BaseBean>>();
+            synchronized (object) {
+                if (listBeans == null) {
+                    listBeans = new MutableLiveData<List<BaseBean>>();
+                }
+            }
         }
         return listBeans;
     }
 
-    public void loadSimpleBean(){
+    public void loadSimpleBean() {
     }
 
-    public void loadListBeans(){
+    public void loadListBeans() {
 
     }
-
-
 }
