@@ -25,14 +25,14 @@ public abstract class BaseView {
     protected LayoutInflater inflater;
     protected ViewDataBinding binding;
     protected BaseVM baseVM;
-    protected  BaseActivity baseActivity;
+    protected BaseActivity baseActivity;
     protected BaseFragment baseFragment;
     protected Observer<BaseBean> beanObserver = new Observer<BaseBean>() {
         @Override
         public void onChanged(@Nullable BaseBean baseBean) {
             // TabClass tabClass = (TabClass) baseBean;
             //binding.setBean(tabClass);
-            if(binding!=null){
+            if (binding != null) {
                 binding.setVariable(BR.simpleBean, baseBean);
             }
         }
@@ -70,7 +70,7 @@ public abstract class BaseView {
     }
 
     public View root() {
-        if ( binding != null) {
+        if (binding != null) {
             return binding.getRoot();
         }
         return null;
@@ -80,12 +80,12 @@ public abstract class BaseView {
         if (modelClass != null) {
             baseVM = ViewModelProviders.of(baseActivity).get(modelClass);
 
-            if(baseFragment != null){
+            if (baseFragment != null) {
                 baseVM.getSimpleBean().observe(baseFragment, beanObserver);
-            }else{
+            } else {
                 baseVM.getSimpleBean().observe(baseActivity, beanObserver);
             }
-    }
+        }
 
 
         return baseVM;
@@ -96,9 +96,18 @@ public abstract class BaseView {
 //                this, new ViewModelProvider.AndroidViewModelFactory(getApplication())
 //            ).get(ImageViewModel.class);
 
+    public void onFreshData(Object... objects) {
+    }
+
+    public void onMoreData(Object... objects) {
+    }
+
+    public void onFailure(Object... objects) {
+    }
+
 
     public static void replaceFragment(@NonNull FragmentManager fragmentManager,
-                                   @NonNull Fragment fragment, int frameId) {
+                                       @NonNull Fragment fragment, int frameId) {
         checkNotNull(fragmentManager);
         checkNotNull(fragment);
 
