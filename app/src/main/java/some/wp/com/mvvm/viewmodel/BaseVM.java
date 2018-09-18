@@ -10,6 +10,9 @@ import java.util.List;
 import some.wp.com.mvvm.taskmodel.BaseBean;
 
 public class BaseVM extends AndroidViewModel {
+    public boolean isFresh=false;
+    public boolean isLoadmore=false;
+
     protected MutableLiveData<List<BaseBean>> listBeans;
     protected MutableLiveData<BaseBean> simpleBean;
     private static Object object = new Object();
@@ -40,10 +43,15 @@ public class BaseVM extends AndroidViewModel {
         return listBeans;
     }
 
-    public void loadSimpleBean() {
+    //
+    public void loadSimpleBean(Object... objects) {
     }
 
-    public void loadListBeans() {
+    public void onRefresh(Object... objects) {
+
+    }
+
+    public void onLoadMore(Object... objects) {
 
     }
 }

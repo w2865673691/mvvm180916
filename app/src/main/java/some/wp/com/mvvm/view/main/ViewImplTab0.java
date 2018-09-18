@@ -26,6 +26,7 @@ public class ViewImplTab0 extends BaseView {
         newsAdapter=new NewsAdapter(baseActivity);
         if(binding!=null){
             binding.setVariable(BR.rvAdapter, newsAdapter);
+            binding.setVariable(BR.viewModel, mainVm);
         }
         Observer<List<BaseBean>> listObsever=new Observer<List<BaseBean>>() {
             @Override
@@ -34,7 +35,6 @@ public class ViewImplTab0 extends BaseView {
             }
         };
         mainVm.getListBeans().observe(baseFragment, listObsever);
-        mainVm.loadListBeans();
     }
 
     @Override

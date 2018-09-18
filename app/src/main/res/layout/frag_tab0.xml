@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="rvAdapter"
-            type="some.wp.com.mvvm.view.BaseAdapter"
-            />
+            type="some.wp.com.mvvm.view.BaseAdapter" />
+
+        <variable
+            name="viewModel"
+            type="some.wp.com.mvvm.viewmodel.BaseVM" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:bindVM="@{viewModel}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:recyclerAapter="@{rvAdapter}"/>
+            app:recyclerAapter="@{rvAdapter}" />
     </android.support.constraint.ConstraintLayout>
 </layout>
