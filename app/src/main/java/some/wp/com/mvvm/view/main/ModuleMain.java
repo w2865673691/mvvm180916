@@ -6,8 +6,6 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import some.wp.com.mvvm.common.dagger.ActivityScoped;
 import some.wp.com.mvvm.common.dagger.FragmentScoped;
-import some.wp.com.mvvm.taskmodel.BaseModel;
-import some.wp.com.mvvm.taskmodel.models.MainModel;
 import some.wp.com.mvvm.view.BaseView;
 
 /**
@@ -20,9 +18,6 @@ public abstract class ModuleMain {
     @Binds
     abstract BaseView baseViewMain(ViewImplMain viewImplMain);
 
-    @ActivityScoped
-    @Binds
-    abstract BaseModel modelMain(MainModel mainModel);
 
     @FragmentScoped
     @ContributesAndroidInjector

@@ -16,6 +16,6 @@ public class ViewImplTab2 extends BaseView {
     public void onReady() {
         mainVm = (MainVm) model(MainVm.class);
 
-        baseVM.loadSimpleBean();
+        baseVM.doLoadBean();
     }
 }

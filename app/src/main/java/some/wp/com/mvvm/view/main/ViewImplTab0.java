@@ -2,6 +2,9 @@ package some.wp.com.mvvm.view.main;
 
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
+import android.view.View;
+
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
@@ -16,6 +19,7 @@ public class ViewImplTab0 extends BaseView {
 
     MainVm mainVm;
     private NewsAdapter newsAdapter;
+    private XRecyclerView xRecyclerView;
 
     @Inject
     public ViewImplTab0() {
@@ -23,32 +27,37 @@ public class ViewImplTab0 extends BaseView {
 
     public void onReady() {
         mainVm = (MainVm) model(MainVm.class);
-        newsAdapter=new NewsAdapter(baseActivity);
-        if(binding!=null){
+        newsAdapter = new NewsAdapter(baseActivity);
+        if (binding != null) {
             binding.setVariable(BR.rvAdapter, newsAdapter);
-            binding.setVariable(BR.viewModel, mainVm);
+            binding.setVariable(BR.baseView, this);
         }
-        Observer<List<BaseBean>> listObsever=new Observer<List<BaseBean>>() {
+        Observer<List<BaseBean>> listObsever = new Observer<List<BaseBean>>() {
             @Override
             public void onChanged(@Nullable List<BaseBean> baseBeans) {
                 newsAdapter.refreshData(baseBeans);
+                if (xRecyclerView != null) {
+                    xRecyclerView.loadMoreComplete(); //结束加载
+                    xRecyclerView.refreshComplete(); //结束刷新
+                }
             }
         };
-        mainVm.getListBeans().observe(baseFragment, listObsever);
+        mainVm.getFreshBeans().observe(baseFragment, listObsever);
     }
 
     @Override
-    public void onFreshData(Object... objects) {
-        super.onFreshData(objects);
+    public void doRefresh(View view) {
+        xRecyclerView = (XRecyclerView) view;
+        super.doRefresh(view);
     }
 
     @Override
-    public void onMoreData(Object... objects) {
-        super.onMoreData(objects);
+    public void doLoadMore(View view) {
+        super.doLoadMore(view);
     }
 
     @Override
-    public void onFailure(Object... objects) {
-        super.onFailure(objects);
+    public void onFailure(View view) {
+        super.onFailure(view);
     }
 }

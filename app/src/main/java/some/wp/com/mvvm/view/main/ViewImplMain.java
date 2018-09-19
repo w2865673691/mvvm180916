@@ -35,7 +35,7 @@ public class ViewImplMain extends BaseView {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            baseVM.loadSimpleBean();
+            baseVM.doLoadBean();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     replaceFragment(fragmentManager, fragProvider0.get(), R.id.fragContent);
@@ -59,6 +59,6 @@ public class ViewImplMain extends BaseView {
         mainBinding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         replaceFragment(fragmentManager, fragProvider0.get(), R.id.fragContent);
 
-        baseVM.loadSimpleBean();
+        baseVM.doLoadBean();
     }
 }

@@ -6,23 +6,23 @@ import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-import some.wp.com.mvvm.viewmodel.BaseVM;
+import some.wp.com.mvvm.view.BaseView;
 
 public class BindFreshView {
 
     @BindingAdapter({"bindVM"})
-    public static void bindVM(final View view, final BaseVM baseVM) {
+    public static void bindVM(final View view, final BaseView baseView) {
        if(view!=null &&view instanceof XRecyclerView){
            XRecyclerView xRecyclerView= (XRecyclerView) view;
            XRecyclerView.LoadingListener loadListener=new XRecyclerView.LoadingListener() {
                @Override
                public void onRefresh() {
-                   baseVM.onRefresh(view);
+                   baseView.doRefresh(view);
                }
 
                @Override
                public void onLoadMore() {
-                   baseVM.onLoadMore(view);
+                   baseView.doLoadMore(view);
                }
            };
            xRecyclerView.setLoadingListener(loadListener);
@@ -32,7 +32,7 @@ public class BindFreshView {
            SwipeRefreshLayout.OnRefreshListener loadListener=new SwipeRefreshLayout.OnRefreshListener() {
                @Override
                public void onRefresh() {
-                   baseVM.onRefresh(view);
+                   baseView.doLoadBean(view);
                }
            };
            swipeRefreshLayout.setOnRefreshListener(loadListener);

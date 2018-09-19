@@ -10,8 +10,8 @@
             type="some.wp.com.mvvm.view.BaseAdapter" />
 
         <variable
-            name="viewModel"
-            type="some.wp.com.mvvm.viewmodel.BaseVM" />
+            name="baseView"
+            type="some.wp.com.mvvm.view.BaseView" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -22,7 +22,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:bindVM="@{viewModel}"
+            app:bindVM="@{baseView}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:recyclerAapter="@{rvAdapter}" />
     </android.support.constraint.ConstraintLayout>

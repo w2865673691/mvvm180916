@@ -78,31 +78,40 @@ public abstract class BaseView {
 
     protected BaseVM model(Class<? extends BaseVM> modelClass) {
         if (modelClass != null) {
-            baseVM = ViewModelProviders.of(baseActivity).get(modelClass);
-
             if (baseFragment != null) {
+                baseVM = ViewModelProviders.of(baseFragment).get(modelClass);
                 baseVM.getSimpleBean().observe(baseFragment, beanObserver);
             } else {
+                baseVM = ViewModelProviders.of(baseActivity).get(modelClass);
                 baseVM.getSimpleBean().observe(baseActivity, beanObserver);
             }
-        }
 
+
+//            ViewModelStore some=new ViewModelStore();
+//            new ViewModelProvider(some,new ViewModelProvider.AndroidViewModelFactory(baseActivity.getApplication()));
+            //    mViewModel = new ViewModelProvider(
+//                this, new ViewModelProvider.AndroidViewModelFactory(getApplication())
+//            ).get(ImageViewModel.class);
+        }
 
         return baseVM;
     }
 
     protected abstract void onReady();
-    //    mViewModel = new ViewModelProvider(
-//                this, new ViewModelProvider.AndroidViewModelFactory(getApplication())
-//            ).get(ImageViewModel.class);
 
-    public void onFreshData(Object... objects) {
+    public void doRefresh(View view) {
+        baseVM.doRefresh();
     }
 
-    public void onMoreData(Object... objects) {
+    public void doLoadMore(View view) {
+        baseVM.doLoadMore(view);
+    }
+    public void doLoadBean(View view) {
+        baseVM.doLoadBean(view);
     }
 
-    public void onFailure(Object... objects) {
+    public void onFailure(View view) {
+
     }
 
 

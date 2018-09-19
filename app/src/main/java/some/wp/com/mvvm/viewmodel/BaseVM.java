@@ -9,11 +9,13 @@ import java.util.List;
 
 import some.wp.com.mvvm.taskmodel.BaseBean;
 
-public class BaseVM extends AndroidViewModel {
-    public boolean isFresh=false;
-    public boolean isLoadmore=false;
+public abstract class BaseVM extends AndroidViewModel {
 
-    protected MutableLiveData<List<BaseBean>> listBeans;
+    protected MutableLiveData<Boolean> isFresh=new MutableLiveData<>();
+    protected MutableLiveData<Boolean> isLoadmore=new MutableLiveData<>();
+
+    protected MutableLiveData<List<BaseBean>> freshBeans;
+    protected MutableLiveData<List<BaseBean>> moreBeans;
     protected MutableLiveData<BaseBean> simpleBean;
     private static Object object = new Object();
 
@@ -32,26 +34,33 @@ public class BaseVM extends AndroidViewModel {
         return simpleBean;
     }
 
-    public MutableLiveData<List<BaseBean>> getListBeans() {
-        if (listBeans == null) {
+    public MutableLiveData<List<BaseBean>> getFreshBeans() {
+        if (freshBeans == null) {
             synchronized (object) {
-                if (listBeans == null) {
-                    listBeans = new MutableLiveData<List<BaseBean>>();
+                if (freshBeans == null) {
+                    freshBeans = new MutableLiveData<List<BaseBean>>();
                 }
             }
         }
-        return listBeans;
+        return freshBeans;
     }
+
+    public MutableLiveData<List<BaseBean>> getMoreBeans() {
+        if (moreBeans == null) {
+            synchronized (object) {
+                if (moreBeans == null) {
+                    moreBeans = new MutableLiveData<List<BaseBean>>();
+                }
+            }
+        }
+        return moreBeans;
+    }
+
 
     //
-    public void loadSimpleBean(Object... objects) {
-    }
+    public abstract void doLoadBean(Object... objects) ;
 
-    public void onRefresh(Object... objects) {
+    public abstract void doRefresh(Object... objects);
 
-    }
-
-    public void onLoadMore(Object... objects) {
-
-    }
+    public abstract void doLoadMore(Object... objects);
 }
