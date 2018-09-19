@@ -1,4 +1,4 @@
-package some.wp.com.mvvm.view;
+package some.wp.com.mvvm.view.helpers;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import some.wp.com.mvvm.R;
 import some.wp.com.mvvm.view.BaseActivity;
+import some.wp.com.mvvm.view.main.viewimpl.ViewImplMain;
 
 public class ActivityMain extends BaseActivity {
 

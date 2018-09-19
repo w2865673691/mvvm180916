@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import some.wp.com.mvvm.BR;
 import some.wp.com.mvvm.R;
 import some.wp.com.mvvm.taskmodel.beans.NewsBean;
-import some.wp.com.mvvm.view.BaseAdapter;
-import some.wp.com.mvvm.view.BaseViewHolder;
+import some.wp.com.mvvm.view.helpers.BaseAdapter;
+import some.wp.com.mvvm.view.helpers.BaseViewHolder;
 
 
 public class NewsAdapter extends BaseAdapter<BaseViewHolder> {

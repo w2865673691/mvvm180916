@@ -1,9 +1,12 @@
 package some.wp.com.mvvm.view;
 
 import android.app.Activity;
+import android.app.Application;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 
 import some.wp.com.mvvm.BR;
 import some.wp.com.mvvm.taskmodel.BaseBean;
+import some.wp.com.mvvm.taskmodel.BaseModel;
 import some.wp.com.mvvm.viewmodel.BaseVM;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -25,6 +29,7 @@ public abstract class BaseView {
     protected LayoutInflater inflater;
     protected ViewDataBinding binding;
     protected BaseVM baseVM;
+    protected BaseService service;
     protected BaseActivity baseActivity;
     protected BaseFragment baseFragment;
     protected Observer<BaseBean> beanObserver = new Observer<BaseBean>() {
@@ -37,6 +42,14 @@ public abstract class BaseView {
             }
         }
     };
+
+    public BaseView service(BaseService service) {
+        this.service = service;
+        this.baseActivity = null;
+        this.baseFragment = null;
+        onReady();
+        return this;
+    }
 
     public BaseView activity(BaseActivity baseActivity) {
         this.baseActivity = baseActivity;
@@ -59,6 +72,7 @@ public abstract class BaseView {
         return this;
     }
 
+    //
     public ViewDataBinding bind(int layoutId, ViewGroup container) {
         if (baseFragment == null && baseActivity != null) {
             binding = DataBindingUtil.setContentView(baseActivity, layoutId);
@@ -76,6 +90,7 @@ public abstract class BaseView {
         return null;
     }
 
+    //
     protected BaseVM model(Class<? extends BaseVM> modelClass) {
         if (modelClass != null) {
             if (baseFragment != null) {
@@ -85,15 +100,32 @@ public abstract class BaseView {
                 baseVM = ViewModelProviders.of(baseActivity).get(modelClass);
                 baseVM.getSimpleBean().observe(baseActivity, beanObserver);
             }
-
-
-//            ViewModelStore some=new ViewModelStore();
-//            new ViewModelProvider(some,new ViewModelProvider.AndroidViewModelFactory(baseActivity.getApplication()));
-            //    mViewModel = new ViewModelProvider(
-//                this, new ViewModelProvider.AndroidViewModelFactory(getApplication())
-//            ).get(ImageViewModel.class);
         }
 
+        return baseVM;
+    }
+
+    protected BaseVM model(BaseModel baseModel) {
+        if (baseModel != null) {
+            Application application = null;
+            LifecycleOwner observerOwner = null;
+            if (service != null) {
+                application = service.getApplication();
+                observerOwner = service;
+            } else if (baseFragment != null) {
+                application = baseFragment.getActivity().getApplication();
+                observerOwner = baseFragment;
+            } else if (baseActivity != null) {
+                application = baseActivity.getApplication();
+                observerOwner = baseActivity;
+            }
+
+            if (observerOwner != null) {
+                baseVM = new BaseVM(application);
+                baseVM.setBaseModel(baseModel);
+                baseVM.getSimpleBean().observe(observerOwner, beanObserver);
+            }
+        }
         return baseVM;
     }
 
@@ -106,6 +138,7 @@ public abstract class BaseView {
     public void doLoadMore(View view) {
         baseVM.doLoadMore(view);
     }
+
     public void doLoadBean(View view) {
         baseVM.doLoadBean(view);
     }
@@ -114,6 +147,25 @@ public abstract class BaseView {
 
     }
 
+    public Context getContext() {
+        Context context = null;
+        if (service != null) {
+            context = service.getApplicationContext();
+        } else if (baseFragment != null) {
+            context = baseFragment.getContext();
+        } else if (baseActivity != null) {
+            context = baseActivity;
+        }
+        return context;
+    }
+
+    public void startService(@NonNull Class<?> cls) {
+        checkNotNull(cls);
+        Context context = getContext();
+        Intent service = new Intent();
+        service.setClass(context, cls);
+        context.startService(service);
+    }
 
     public static void replaceFragment(@NonNull FragmentManager fragmentManager,
                                        @NonNull Fragment fragment, int frameId) {
@@ -124,4 +176,9 @@ public abstract class BaseView {
         transaction.replace(frameId, fragment);
         transaction.commit();
     }
+
+
+//      mViewModel = new ViewModelProvider(
+//                this, new ViewModelProvider.AndroidViewModelFactory(getApplication())
+//            ).get(ImageViewModel.class);
 }

@@ -8,11 +8,14 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import some.wp.com.mvvm.taskmodel.BaseBean;
+import some.wp.com.mvvm.taskmodel.BaseModel;
 
-public abstract class BaseVM extends AndroidViewModel {
+public class BaseVM extends AndroidViewModel {
 
-    protected MutableLiveData<Boolean> isFresh=new MutableLiveData<>();
-    protected MutableLiveData<Boolean> isLoadmore=new MutableLiveData<>();
+
+    protected BaseModel baseModel;
+    protected MutableLiveData<Boolean> isFresh = new MutableLiveData<>();
+    protected MutableLiveData<Boolean> isLoadmore = new MutableLiveData<>();
 
     protected MutableLiveData<List<BaseBean>> freshBeans;
     protected MutableLiveData<List<BaseBean>> moreBeans;
@@ -56,11 +59,25 @@ public abstract class BaseVM extends AndroidViewModel {
         return moreBeans;
     }
 
-
     //
-    public abstract void doLoadBean(Object... objects) ;
+    public void doLoadBean(Object... objects) {
+        if (baseModel != null) {
+            baseModel.loadBean(this);
+        }
+    }
 
-    public abstract void doRefresh(Object... objects);
+    public void doRefresh(Object... objects) {
+        if (baseModel != null) {
+            baseModel.freshData(this);
+        }
+    }
 
-    public abstract void doLoadMore(Object... objects);
+    public void doLoadMore(Object... objects) {
+        if (baseModel != null) {
+            baseModel.loadMoreData(this);
+        }
+    }
+    public void setBaseModel(BaseModel baseModel) {
+        this.baseModel = baseModel;
+    }
 }

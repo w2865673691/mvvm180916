@@ -1,4 +1,4 @@
-package some.wp.com.mvvm.view.main;
+package some.wp.com.mvvm.view.main.viewimpl;
 
 import javax.inject.Inject;
 
@@ -7,15 +7,14 @@ import some.wp.com.mvvm.viewmodel.impl.MainVm;
 
 public class ViewImplTab2 extends BaseView {
 
-    MainVm mainVm;
 
     @Inject
     public ViewImplTab2() {
     }
 
     public void onReady() {
-        mainVm = (MainVm) model(MainVm.class);
-
+       model(MainVm.class);
+       // baseVM = model(new MainModel());
         baseVM.doLoadBean();
     }
 }

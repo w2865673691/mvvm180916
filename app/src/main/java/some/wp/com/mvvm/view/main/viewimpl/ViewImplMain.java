@@ -1,4 +1,4 @@
-package some.wp.com.mvvm.view.main;
+package some.wp.com.mvvm.view.main.viewimpl;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,11 +11,15 @@ import dagger.Lazy;
 import some.wp.com.mvvm.R;
 import some.wp.com.mvvm.databinding.ActivityMainBinding;
 import some.wp.com.mvvm.view.BaseView;
+import some.wp.com.mvvm.view.main.FragmentTab0;
+import some.wp.com.mvvm.view.main.FragmentTab1;
+import some.wp.com.mvvm.view.main.FragmentTab2;
+import some.wp.com.mvvm.view.main.ServiceMain;
 import some.wp.com.mvvm.viewmodel.impl.MainVm;
 
 public class ViewImplMain extends BaseView {
 
-    MainVm mainVm;
+  //  MainVm mainVm;
     ActivityMainBinding mainBinding;
     private FragmentManager fragmentManager;
 
@@ -39,12 +43,15 @@ public class ViewImplMain extends BaseView {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     replaceFragment(fragmentManager, fragProvider0.get(), R.id.fragContent);
+                    startService(ServiceMain.class);
                     return true;
                 case R.id.navigation_dashboard:
                     replaceFragment(fragmentManager, fragProvider1.get(), R.id.fragContent);
+                    startService(ServiceMain.class);
                     return true;
                 case R.id.navigation_notifications:
                     replaceFragment(fragmentManager, fragProvider2.get(), R.id.fragContent);
+                    startService(ServiceMain.class);
                     return true;
             }
             return false;
@@ -52,13 +59,14 @@ public class ViewImplMain extends BaseView {
     };
 
     public void onReady() {
-        mainVm = (MainVm) model(MainVm.class);
+        baseVM = (MainVm) model(MainVm.class);
+       // baseVM = model(new MainModel());
         mainBinding = (ActivityMainBinding) binding;
         fragmentManager = baseActivity.getSupportFragmentManager();
 
         mainBinding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         replaceFragment(fragmentManager, fragProvider0.get(), R.id.fragContent);
 
-        baseVM.doLoadBean();
+        doLoadBean(null);
     }
 }

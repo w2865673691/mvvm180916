@@ -84,7 +84,7 @@ public class MainModel extends BaseModel {
 
     public void loadBean(BaseVM baseVM) {
         TabClass tabClass = new TabClass();
-        tabClass.setTabName("loadBean1" + "\n" + tabClass.hashCode());
+        tabClass.setTabName("loadBean3" + ":" + tabClass.hashCode());
         baseVM.getSimpleBean().setValue(tabClass);
     }
 }

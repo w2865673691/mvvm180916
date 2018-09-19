@@ -4,7 +4,7 @@ import android.databinding.BindingAdapter;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-import some.wp.com.mvvm.view.BaseAdapter;
+import some.wp.com.mvvm.view.helpers.BaseAdapter;
 
 public class BindRecyclerView {
 

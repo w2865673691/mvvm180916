@@ -7,7 +7,7 @@
 
         <variable
             name="rvAdapter"
-            type="some.wp.com.mvvm.view.BaseAdapter" />
+            type="some.wp.com.mvvm.view.helpers.BaseAdapter" />
 
         <variable
             name="baseView"

@@ -1,4 +1,4 @@
-package some.wp.com.mvvm.view.main;
+package some.wp.com.mvvm.view.main.viewimpl;
 
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
@@ -12,12 +12,13 @@ import javax.inject.Inject;
 
 import some.wp.com.mvvm.BR;
 import some.wp.com.mvvm.taskmodel.BaseBean;
+import some.wp.com.mvvm.taskmodel.models.MainModel;
 import some.wp.com.mvvm.view.BaseView;
-import some.wp.com.mvvm.viewmodel.impl.MainVm;
+import some.wp.com.mvvm.view.main.NewsAdapter;
 
 public class ViewImplTab0 extends BaseView {
 
-    MainVm mainVm;
+    // MainVm mainVm;
     private NewsAdapter newsAdapter;
     private XRecyclerView xRecyclerView;
 
@@ -26,7 +27,7 @@ public class ViewImplTab0 extends BaseView {
     }
 
     public void onReady() {
-        mainVm = (MainVm) model(MainVm.class);
+        baseVM = model(new MainModel());
         newsAdapter = new NewsAdapter(baseActivity);
         if (binding != null) {
             binding.setVariable(BR.rvAdapter, newsAdapter);
@@ -42,12 +43,16 @@ public class ViewImplTab0 extends BaseView {
                 }
             }
         };
-        mainVm.getFreshBeans().observe(baseFragment, listObsever);
+        baseVM.getFreshBeans().observe(baseFragment, listObsever);
     }
 
     @Override
     public void doRefresh(View view) {
-        xRecyclerView = (XRecyclerView) view;
+        if (view != null) {
+            xRecyclerView = (XRecyclerView) view;
+        } else {
+            xRecyclerView = null;
+        }
         super.doRefresh(view);
     }
 

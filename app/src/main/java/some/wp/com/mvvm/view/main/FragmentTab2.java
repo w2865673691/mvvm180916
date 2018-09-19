@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import some.wp.com.mvvm.R;
 import some.wp.com.mvvm.view.BaseFragment;
+import some.wp.com.mvvm.view.main.viewimpl.ViewImplTab2;
 
 public class FragmentTab2 extends BaseFragment {
     @Inject
