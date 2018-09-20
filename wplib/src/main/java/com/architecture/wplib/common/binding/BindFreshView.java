@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-import com.architecture.wplib.view.BaseView;
+import com.architecture.wplib.ui.BaseView;
 
 public class BindFreshView {
 

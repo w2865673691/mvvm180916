@@ -9,7 +9,7 @@
 
         <variable
             name="simpleBean"
-            type="some.wp.com.mvvm.taskmodel.beans.TabBean"
+            type="some.wp.com.mvvm.data.beans.TabBean"
             />
     </data>
 
@@ -17,7 +17,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.main.ActivityMain"
+        tools:context=".ui.main.ActivityMain"
         >
 
         <TextView

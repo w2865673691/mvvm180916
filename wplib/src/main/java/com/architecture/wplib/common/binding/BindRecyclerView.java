@@ -2,7 +2,7 @@ package com.architecture.wplib.common.binding;
 
 import android.databinding.BindingAdapter;
 
-import com.architecture.wplib.view.adapter.BaseAdapter;
+import com.architecture.wplib.ui.adapter.BaseAdapter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 

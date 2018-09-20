@@ -8,11 +8,11 @@
 
         <variable
             name="simpleNewsBean"
-            type="some.wp.com.mvvm.taskmodel.beans.NewsBean" />
+            type="some.wp.com.mvvm.data.beans.NewsBean" />
 
         <variable
             name="adapter"
-            type="some.wp.com.mvvm.view.main.adapters.AdapterNews" />
+            type="some.wp.com.mvvm.ui.main.adapters.AdapterNews" />
 
         <variable
             name="position"

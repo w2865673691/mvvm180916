@@ -9,7 +9,7 @@
 
         <variable
             name="simpleBean"
-            type="some.wp.com.mvvm.taskmodel.beans.TabBean"
+            type="some.wp.com.mvvm.data.beans.TabBean"
             />
     </data>
 
