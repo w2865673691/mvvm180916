@@ -1,12 +1,16 @@
 package some.wp.com.mvvm.view.main;
 
 
+import com.architecture.wplib.common.dagger.ActivityScoped;
+import com.architecture.wplib.common.dagger.FragmentScoped;
+import com.architecture.wplib.view.BaseView;
+
 import dagger.Binds;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import some.wp.com.mvvm.common.dagger.ActivityScoped;
-import some.wp.com.mvvm.common.dagger.FragmentScoped;
-import some.wp.com.mvvm.view.BaseView;
+import some.wp.com.mvvm.view.main.fragements.FragmentTab0;
+import some.wp.com.mvvm.view.main.fragements.FragmentTab1;
+import some.wp.com.mvvm.view.main.fragements.FragmentTab2;
 import some.wp.com.mvvm.view.main.viewimpl.ViewImplMain;
 import some.wp.com.mvvm.view.main.viewimpl.ViewImplTab0;
 import some.wp.com.mvvm.view.main.viewimpl.ViewImplTab1;
@@ -21,7 +25,6 @@ public abstract class ModuleMain {
     @ActivityScoped
     @Binds
     abstract BaseView baseViewMain(ViewImplMain viewImplMain);
-
 
     @FragmentScoped
     @ContributesAndroidInjector

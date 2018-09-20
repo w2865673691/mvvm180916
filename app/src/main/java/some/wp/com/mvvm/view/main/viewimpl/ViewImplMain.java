@@ -5,17 +5,19 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
+import com.architecture.wplib.view.BaseView;
+
 import javax.inject.Inject;
 
 import dagger.Lazy;
+import some.wp.com.mvvm.BR;
 import some.wp.com.mvvm.R;
 import some.wp.com.mvvm.databinding.ActivityMainBinding;
-import some.wp.com.mvvm.view.BaseView;
-import some.wp.com.mvvm.view.main.FragmentTab0;
-import some.wp.com.mvvm.view.main.FragmentTab1;
-import some.wp.com.mvvm.view.main.FragmentTab2;
-import some.wp.com.mvvm.view.main.ServiceMain;
-import some.wp.com.mvvm.viewmodel.impl.MainVm;
+import some.wp.com.mvvm.view.main.fragements.FragmentTab0;
+import some.wp.com.mvvm.view.main.fragements.FragmentTab1;
+import some.wp.com.mvvm.view.main.fragements.FragmentTab2;
+import some.wp.com.mvvm.view.back.ServiceMain;
+import some.wp.com.mvvm.viewmodel.MainVm;
 
 public class ViewImplMain extends BaseView {
 
@@ -32,6 +34,7 @@ public class ViewImplMain extends BaseView {
 
     @Inject
     public ViewImplMain() {
+        brID = BR.simpleBean;
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -39,22 +42,23 @@ public class ViewImplMain extends BaseView {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            baseVM.doLoadBean();
+            boolean result=false;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     replaceFragment(fragmentManager, fragProvider0.get(), R.id.fragContent);
                     startService(ServiceMain.class);
-                    return true;
+                    result=  true;
                 case R.id.navigation_dashboard:
                     replaceFragment(fragmentManager, fragProvider1.get(), R.id.fragContent);
                     startService(ServiceMain.class);
-                    return true;
+                    result=  true;
                 case R.id.navigation_notifications:
                     replaceFragment(fragmentManager, fragProvider2.get(), R.id.fragContent);
                     startService(ServiceMain.class);
-                    return true;
+                    result= true;
             }
-            return false;
+            doLoadBean(null);
+            return result;
         }
     };
 

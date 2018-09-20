@@ -1,6 +1,11 @@
 package some.wp.com.mvvm.taskmodel.models;
 
 
+import com.architecture.wplib.common.LogActs;
+import com.architecture.wplib.taskmodel.BaseBean;
+import com.architecture.wplib.taskmodel.BaseModel;
+import com.architecture.wplib.viewmodel.BaseVM;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +17,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import some.wp.com.mvvm.common.LogActs;
-import some.wp.com.mvvm.taskmodel.BaseBean;
-import some.wp.com.mvvm.taskmodel.BaseModel;
 import some.wp.com.mvvm.taskmodel.beans.NewsBean;
-import some.wp.com.mvvm.taskmodel.beans.TabClass;
-import some.wp.com.mvvm.viewmodel.BaseVM;
+import some.wp.com.mvvm.taskmodel.beans.TabBean;
 
 public class MainModel extends BaseModel {
 
@@ -83,8 +84,8 @@ public class MainModel extends BaseModel {
     }
 
     public void loadBean(BaseVM baseVM) {
-        TabClass tabClass = new TabClass();
-        tabClass.setTabName("loadBean3" + ":" + tabClass.hashCode());
+        TabBean tabClass = new TabBean();
+        tabClass.setTabName("inject2" + ":" + tabClass.hashCode());
         baseVM.getSimpleBean().setValue(tabClass);
     }
 }

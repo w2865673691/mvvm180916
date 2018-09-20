@@ -7,11 +7,11 @@
 
         <variable
             name="rvAdapter"
-            type="some.wp.com.mvvm.view.helpers.BaseAdapter" />
+            type="com.architecture.wplib.view.adapter.BaseAdapter" />
 
         <variable
             name="baseView"
-            type="some.wp.com.mvvm.view.BaseView" />
+            type="com.architecture.wplib.view.BaseView" />
     </data>
 
     <android.support.constraint.ConstraintLayout

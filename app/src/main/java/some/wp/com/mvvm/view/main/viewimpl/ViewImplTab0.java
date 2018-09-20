@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.architecture.wplib.taskmodel.BaseBean;
+import com.architecture.wplib.view.BaseView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
@@ -11,24 +13,23 @@ import java.util.List;
 import javax.inject.Inject;
 
 import some.wp.com.mvvm.BR;
-import some.wp.com.mvvm.taskmodel.BaseBean;
 import some.wp.com.mvvm.taskmodel.models.MainModel;
-import some.wp.com.mvvm.view.BaseView;
-import some.wp.com.mvvm.view.main.NewsAdapter;
+import some.wp.com.mvvm.view.main.adapters.AdapterNews;
 
 public class ViewImplTab0 extends BaseView {
 
     // MainVm mainVm;
-    private NewsAdapter newsAdapter;
+    private AdapterNews newsAdapter;
     private XRecyclerView xRecyclerView;
 
     @Inject
     public ViewImplTab0() {
+        brID = BR.simpleBean;
     }
 
     public void onReady() {
         baseVM = model(new MainModel());
-        newsAdapter = new NewsAdapter(baseActivity);
+        newsAdapter = new AdapterNews(baseActivity);
         if (binding != null) {
             binding.setVariable(BR.rvAdapter, newsAdapter);
             binding.setVariable(BR.baseView, this);

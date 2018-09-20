@@ -1,6 +1,6 @@
 package some.wp.com.mvvm.taskmodel.beans;
 
-import some.wp.com.mvvm.taskmodel.BaseBean;
+import com.architecture.wplib.taskmodel.BaseBean;
 
 
 public class NewsBean extends BaseBean {

@@ -12,7 +12,7 @@
 
         <variable
             name="adapter"
-            type="some.wp.com.mvvm.view.main.NewsAdapter" />
+            type="some.wp.com.mvvm.view.main.adapters.AdapterNews" />
 
         <variable
             name="position"
