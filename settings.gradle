@@ -1,1 +1,1 @@
-include ':app', ':wplib'
+include ':app', ':wplib', ':xmlbuild'

@@ -1,0 +1,39 @@
+apply plugin: 'java-library'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+//task makeJar(type: Copy) {
+//    delete 'build/libs/carmanul.jar'
+//    from('build/intermediates/bundles/debug/')
+//    into('build/libs/')
+//    //include ,exclude参数来设置过滤
+//    include('classes.jar')
+//    rename ('classes.jar', 'carmanul.jar')
+//}
+//makeJar.dependsOn(build)
+
+task makeJar(type: Jar) {
+    delete 'build/libs/carxmlbuild.jar'
+    archiveName 'carxmlbuild.jar'
+    from('build/classes/java/main/')
+    from(project.zipTree("libs/xmlpull_1_0_5.jar"))
+    from(project.zipTree("libs/xstream-1.4.4.jar"))
+    destinationDir = file('build/libs')
+    include('com/**')
+    include('org/**')
+    include('classes.jar')
+}
+makeJar.dependsOn(build)
+
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/xmlpull_1_0_5.jar')
+    compile files('libs/xstream-1.4.4.jar')
+    compile files('libs/jxl.jar')
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

@@ -3,7 +3,6 @@ package some.wp.com.mvvm.ui.back.viewimpl;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
-import com.architecture.wplib.common.LogActs;
 import com.architecture.wplib.data.BaseBean;
 import com.architecture.wplib.ui.BaseView;
 
@@ -32,11 +31,7 @@ public class ViewImplServiceMain extends BaseView {
             public void onChanged(@Nullable BaseBean baseBean) {
                 if(baseBean!=null){
                     TabBean tabClass= (TabBean) baseBean;
-                    LogActs.d("service-->"+tabClass.getTabName());
                 }
-
-                LogActs.d("SimpleA-->"+simpleA);
-                LogActs.d("SimpleA-->"+simpleA.simpleB);
                 simpleA.simpleB.dosome();
             }
         });

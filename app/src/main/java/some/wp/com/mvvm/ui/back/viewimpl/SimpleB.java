@@ -1,7 +1,5 @@
 package some.wp.com.mvvm.ui.back.viewimpl;
 
-import com.architecture.wplib.common.LogActs;
-
 import javax.inject.Inject;
 
 public class SimpleB {
@@ -11,6 +9,6 @@ public class SimpleB {
     }
 
     public void dosome(){
-        LogActs.d("SimpleB-->dosome");
+        //LogActs.d("dosome");
     }
 }

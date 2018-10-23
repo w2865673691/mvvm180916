@@ -1,6 +1,7 @@
 package com.architecture.wplib.common;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.util.Log;
 
 
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @SuppressWarnings("unused")
 public final class LogActs {
+    private static final String regex = "-->";
 
     /**
      * 获取文件名
@@ -52,54 +54,61 @@ public final class LogActs {
         return sdf.format(now);
     }
 
+
     private static String buildLog() {
         StackTraceElement[] stacktrace = (new Exception()).getStackTrace();// Thread.currentThread().getStackTrace();
         StackTraceElement traceElement = stacktrace[2];
-        StringBuilder stringBuilder = new StringBuilder("[")
-                .append(traceElement.getFileName()).append(" | ")
-                .append(traceElement.getMethodName()).append("() | ")
-                .append(traceElement.getLineNumber()).append("]");
+        StringBuilder stringBuilder = new StringBuilder()
+                .append(traceElement.getFileName()).append("/")
+                .append(traceElement.getMethodName()).append("()/")
+                .append(traceElement.getLineNumber()).append(regex);
         String TAG = stringBuilder.toString();
         return TAG;
     }
 
-    public static void v(String msg) {
+    public static void v(Object obj) {
         if (Constants.Net.LOG_ALL && Constants.Net.LOG_V) {
+            String msg=getString(obj);
             String TAG = buildLog();
             Log.v(TAG, msg);
         }
     }
 
-    public static void d(String msg) {
+    public static void d(Object obj) {
         if (Constants.Net.LOG_ALL && Constants.Net.LOG_D) {
+            String msg=getString(obj);
             String TAG = buildLog();
             Log.d(TAG, msg);
         }
     }
 
-    public static void i(String msg) {
+    public static void i(Object obj) {
         if (Constants.Net.LOG_ALL && Constants.Net.LOG_I) {
+            String msg=getString(obj);
             String TAG = buildLog();
             Log.i(TAG, msg);
         }
     }
 
-    public static void w(String msg) {
+    public static void w(Object obj) {
         if (Constants.Net.LOG_ALL && Constants.Net.LOG_W) {
+            String msg=getString(obj);
             String TAG = buildLog();
             Log.w(TAG, msg);
         }
     }
 
-    public static void e(String msg) {
+    public static void e(Object obj) {
         if (Constants.Net.LOG_ALL && Constants.Net.LOG_E) {
+            String msg=getString(obj);
             String TAG = buildLog();
             Log.e(TAG, msg);
         }
     }
 
-    public static void a(String msg) {
+    public static void a(Object obj) {
         if (Constants.Net.LOG_ALL && Constants.Net.LOG_E) {
+            String msg=getString(obj);
             String TAG = buildLog();
             logAll(TAG, msg);
         }
@@ -107,25 +116,28 @@ public final class LogActs {
 
     private static final int LOG_MAXLENGTH = 2000;
 
-    public static void logAll(String type, String msg) {
+    public static void logAll(String tag, Object obj) {
+        String msg=getString(obj);
         int strLength = msg.length();
         int start = 0;
         int end = LOG_MAXLENGTH;
-        String head = "-->";
         for (int i = 0; i < 100; i++) {
-            if (i == 0) {
-                head = "";
-            } else {
-                head = "-->";
-            }
             if (strLength > end) {
-                Log.d(type + "-" + i, head + msg.substring(start, end));
+                Log.d(tag + "-" + i,  msg.substring(start, end));
                 start = end;
                 end = end + LOG_MAXLENGTH;
             } else {
-                Log.d(type + "-" + i, head + msg.substring(start, strLength));
+                Log.d(tag + "-" + i, msg.substring(start, strLength));
                 break;
             }
         }
+    }
+
+    private static String getString(Object obj) {
+        String msg = "" + obj;
+        if(TextUtils.isEmpty(msg)){
+            msg=" ";
+        }
+        return msg;
     }
 }

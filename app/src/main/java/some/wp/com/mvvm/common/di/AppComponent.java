@@ -12,7 +12,7 @@ import some.wp.com.mvvm.ToDoApplication;
 
 @Singleton
 @Component(modules = { ApplicationModule.class,
-        ViewModule.class,
+        AndroidModule.class,
         AndroidSupportInjectionModule.class})
 public interface AppComponent extends AndroidInjector<ToDoApplication> {
     // Gives us syntactic sugar. we can then do DaggerAppComponent.builder().application(this).build().inject(this);

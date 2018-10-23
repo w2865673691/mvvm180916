@@ -21,7 +21,7 @@ import some.wp.com.mvvm.model.MainViewModel;
 
 public class ViewImplMain extends BaseView {
 
-  //  MainViewModel mainVm;
+    //  MainViewModel mainVm;
     ActivityMainBinding mainBinding;
     private FragmentManager fragmentManager;
 
@@ -42,20 +42,26 @@ public class ViewImplMain extends BaseView {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            boolean result=false;
+            boolean result = false;
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_home: {
                     replaceFragment(fragmentManager, fragProvider0.get(), R.id.fragContent);
                     startService(ServiceMain.class);
-                    result=  true;
-                case R.id.navigation_dashboard:
+                    result = true;
+                }
+                break;
+                case R.id.navigation_dashboard: {
                     replaceFragment(fragmentManager, fragProvider1.get(), R.id.fragContent);
                     startService(ServiceMain.class);
-                    result=  true;
-                case R.id.navigation_notifications:
+                    result = true;
+                }
+                break;
+                case R.id.navigation_notifications: {
                     replaceFragment(fragmentManager, fragProvider2.get(), R.id.fragContent);
                     startService(ServiceMain.class);
-                    result= true;
+                    result = true;
+                }
+                break;
             }
             doLoadBean(null);
             return result;
@@ -64,7 +70,7 @@ public class ViewImplMain extends BaseView {
 
     public void onReady() {
         baseVM = (MainViewModel) viewModel(MainViewModel.class);
-       // baseVM = viewModel(new MainModel());
+        // baseVM = viewModel(new MainModel());
         mainBinding = (ActivityMainBinding) binding;
         fragmentManager = baseActivity.getSupportFragmentManager();
 

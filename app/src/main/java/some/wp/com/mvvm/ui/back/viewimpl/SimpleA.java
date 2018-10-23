@@ -9,6 +9,8 @@ public class SimpleA {
 
     public void setName(String name) {
         this.name = name;
+
+//        javax.xml.bind.JAXBContext jaxbContext=null;
     }
 
     private String name="test1";
