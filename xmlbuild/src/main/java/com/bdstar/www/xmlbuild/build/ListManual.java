@@ -68,8 +68,8 @@ public class ListManual {
                         type = ManualBean.Type.empty;
                     }
                     String name = namePart[1];
-                    if (name.contains("l")) {
-                        name = name.replace("l", "/");
+                    if (name.contains("&l&")) {
+                        name = name.replace("&l&", "/");
                     }
                     if (name.endsWith("x")) {
                         System.out.println("xx--" + name);

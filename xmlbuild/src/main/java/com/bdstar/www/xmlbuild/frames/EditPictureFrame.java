@@ -391,7 +391,7 @@ public class EditPictureFrame extends JFrame {
         String jarPath = new File(jarWholePath).getParentFile().getAbsolutePath();
         System.out.println("jarPath-->"+jarPath);
 
-        String path =jarPath+"\\";// "E:\\CarManual\\";
+        String path =jarPath+"\\";//"E:\\用户手册\\CarManual\\";//
         JFrame frame = new EditPictureFrame(path);
         frame.setVisible(true);
     }
