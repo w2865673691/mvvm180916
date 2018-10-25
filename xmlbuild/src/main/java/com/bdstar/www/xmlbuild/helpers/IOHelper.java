@@ -24,17 +24,21 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 public class IOHelper {
-    public static void saveXml(String xmlString, String xmlmanualPath) {
-        File file = new File(xmlmanualPath);
+    public static void saveXml(String xmlString, File file) {
         if (file.exists()) {
             file.delete();
         }
         try {
             file.createNewFile();
-            IOHelper.saveString(xmlmanualPath, xmlString);
+            IOHelper.saveString(file.getAbsolutePath(), xmlString);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saveXml(String xmlString, String xmlmanualPath) {
+        File file = new File(xmlmanualPath);
+        saveXml(xmlString,file);
     }
 
     public static void saveString(String fileName, String content) {

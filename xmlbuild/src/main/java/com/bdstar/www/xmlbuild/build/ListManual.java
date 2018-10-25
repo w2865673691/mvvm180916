@@ -4,31 +4,12 @@ import com.bdstar.www.xmlbuild.beans.ManualBean;
 import com.bdstar.www.xmlbuild.helpers.IOHelper;
 import com.thoughtworks.xstream.XStream;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.SequenceInputStream;
 import java.util.ArrayList;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 public class ListManual {
     public static final String pathLocal="xmlList";
@@ -49,7 +30,7 @@ public class ListManual {
 
         ManualBean parentBean = new ManualBean();
         parentBean.setId("0");
-        getFileList(path, parentBean);
+        getFileList(path, parentBean,null);
 
         XStream xstream2 = new XStream();
         xstream2.alias(ManualBean.alias, ManualBean.class);
@@ -60,11 +41,10 @@ public class ListManual {
     }
 
 
-    public static void getFileList(String strPath, ManualBean parentBean) {
+    public static void getFileList(String strPath, ManualBean parentBean, String relativeId) {
         String parentId = parentBean.getId();
         File dir = new File(strPath);
         File[] files = dir.listFiles();
-        String relativeId = null;
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
                 String fileName = files[i].getName();
@@ -72,6 +52,11 @@ public class ListManual {
                 if (fileName == null || fileName.length() <= 0 || !fileName.contains(".")) {
                     continue;
                 }
+                if (fileName.equals("0000.relative")) {
+                    relativeId=parentId;
+                    continue;
+                }
+
                 if (files[i].isDirectory()) {
                     String[] namePart = fileName.split("\\.");
                     if (namePart == null || namePart.length < 2) {
@@ -81,7 +66,6 @@ public class ListManual {
                     String type = ManualBean.Type.next;
                     if (namePart.length >= 3 && "empty".equals(namePart[namePart.length - 1])) {
                         type = ManualBean.Type.empty;
-                        relativeId = mid;
                     }
                     String name = namePart[1];
                     if (name.contains("l")) {
@@ -106,9 +90,7 @@ public class ListManual {
                     }
                     manualBeans.add(manualBean);
 
-                    if (ManualBean.Type.next.equals(manualBean.getType())) {
-                        getFileList(files[i].getAbsolutePath(), manualBean);
-                    }
+                    getFileList(files[i].getAbsolutePath(), manualBean,relativeId);
                 } else { // file
                     if (fileName.equals("contenttext.txt")) {
                         File textFile = files[i];
@@ -168,6 +150,4 @@ public class ListManual {
 
         return stringBuilder.toString();
     }
-
-
 }

@@ -1,23 +1,21 @@
 package com.bdstar.www.xmlbuild.build;
 
-import com.bdstar.www.xmlbuild.beans.ManualBean;
 import com.bdstar.www.xmlbuild.beans.PictureBean;
 import com.bdstar.www.xmlbuild.beans.PressBean;
 import com.bdstar.www.xmlbuild.helpers.IOHelper;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class PictureManual {
     public static final String pathLocal = "xmlPicture";
+    public static final String car_in = "car_in";
+    public static final String car_out = "car_out";
     private static String xmlPath;
 
     public static void build(String path) {
@@ -28,15 +26,15 @@ public class PictureManual {
         }
 
         path = path + pathLocal;
-        getFileList(path + "\\car_in");
-        getFileList(path + "\\car_out");
+        getFileList(path + "\\"+car_in);
+        getFileList(path + "\\"+car_out);
     }
 
     public static void getFileList(String strPath) {
         ArrayList<PictureBean> pictureBeans = new ArrayList<>();
         File dir = new File(strPath);
         if (!dir.exists()) {
-            System.out.println(strPath+" file no exist");
+            System.out.println(strPath + " file no exist");
             return;
         }
 
@@ -48,8 +46,31 @@ public class PictureManual {
                 if (!files[i].isDirectory()) {
                     if (fileName.endsWith(".txt")) {
                         File textFile = files[i];
-                        PictureBean bean = readFileByLines(textFile);
+                        PictureBean bean = readFile(textFile);
                         if (bean != null) {
+                            ArrayList<PressBean> presses = bean.getPressBeans();
+                            if(presses!=null){
+                                for (PressBean press : presses) {
+                                    String value = press.getLink();
+                                    StringBuilder sb = new StringBuilder();
+                                    if (value != null && value.contains(ListManual.pathLocal + "\\")) {
+                                        String[] sp1 = value.split(ListManual.pathLocal + "\\\\");
+                                        if (sp1.length == 2) {
+                                            String[] sp2 = sp1[1].split("\\\\");
+
+                                            sb.append("0");
+                                            for (String nm : sp2) {
+                                                System.out.println("nm:" + nm);
+                                                if (nm.contains(".")) {
+                                                    sb.append(nm.substring(0, nm.indexOf(".")));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    value = sb.toString();
+                                    press.setLink(value);
+                                }
+                            }
                             pictureBeans.add(bean);
                         }
                     }
@@ -60,8 +81,8 @@ public class PictureManual {
         XStream xstream2 = new XStream();
         xstream2.alias(PictureBean.alias, PictureBean.class);
         xstream2.alias(PressBean.alias, PressBean.class);
-
         xstream2.processAnnotations(PictureBean.class);
+
         String xmlString = xstream2.toXML(pictureBeans);
         System.out.println("xml-->\n" + xmlString);
 
@@ -73,112 +94,43 @@ public class PictureManual {
         IOHelper.saveXml(xmlString, xmlPath);
     }
 
-    public static PictureBean readFileByLines(File file) {
-        PictureBean pictureBean = null;
-        BufferedReader reader = null;
+    public static void saveFile(File file, PictureBean pictureBean) {
+        XStream xStream = new XStream();
+        xStream.alias(PictureBean.alias, PictureBean.class);
+        xStream.alias(PressBean.alias, PressBean.class);
+        xStream.processAnnotations(PictureBean.class);
+        String xmlString = xStream.toXML(pictureBean);
+        IOHelper.saveXml(xmlString, file);
+    }
+
+    public static PictureBean readFile(File file) {
+        PictureBean pictureBean = new PictureBean();
         InputStreamReader inputStreamReader = null;
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(file);
-            inputStreamReader = new InputStreamReader(fileInputStream, "GBK");//"UTF-8");
-            reader = new BufferedReader(inputStreamReader);
-            String tempString = null;
-            PressBean pressBean = null;
-            ArrayList<PressBean> pressBeans = null;
-            int line = 1;
-            while ((tempString = reader.readLine()) != null) {
-//                System.out.println(String.format("%03d", line) + ":" + tempString);
-                if (tempString.contains("=")) {
-                    String[] properties = tempString.split("=");
-                    if (properties.length == 2) {
-                        String key = properties[0].trim();
-                        String value = properties[1].trim();
-//                        System.out.println("key=" + key + "; value=" + value + ";");
-                        if (line == 1) {
-                            if ("src".equals(key) && value != null && value.length() > 0) {
-                                pictureBean = new PictureBean();
-                                pictureBean.setSrc(value);
-                                pressBeans = new ArrayList<>();
-                                pictureBean.setPressBeans(pressBeans);
-                            } else {
-                                return null;
-                            }
-                        } else {
-                            if (pictureBean == null) {
-                                return null;
-                            }
-                            if ("width".equals(key)) {
-                                pictureBean.setWidth(value);
-                            }
-                            if ("hight".equals(key)) {
-                                pictureBean.setHight(value);
-                            }
-                            if ("r".equals(key)) {
-                                pictureBean.setR(value);
-                            }
-
-
-                            if ("link".equals(key)) {
-                                pressBean = new PressBean();
-                                pressBeans.add(pressBean);
-
-                                StringBuilder sb = new StringBuilder();
-                                if (value != null && value.contains(ListManual.pathLocal + "\\")) {
-                                    String[] sp1 = value.split(ListManual.pathLocal + "\\\\");
-//                                    System.out.println("sp1-->"+sp1);
-                                    if (sp1.length == 2) {
-                                        String[] sp2 = sp1[1].split("\\\\");
-
-                                        sb.append("0");
-                                        for (String nm : sp2) {
-                                            System.out.println("nm:" + nm);
-                                            if (nm.contains(".")) {
-                                                sb.append(nm.substring(0, nm.indexOf(".")));
-                                            }
-                                        }
-                                    }
-                                }
-                                value = sb.toString();
-                                pressBean.setLink(value);
-                            }
-
-                            if ("x".equals(key)) {
-                                pressBean.setX(value);
-                            }
-
-                            if ("y".equals(key)) {
-                                pressBean.setY(value);
-                                pressBean = null;
-                            }
-                        }
-                        line++;
-                    }
-                }
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");//"UTF-8");
+            XStream xStream = new XStream(new DomDriver());
+            xStream.alias(PictureBean.alias, PictureBean.class);
+            xStream.alias(PressBean.alias, PressBean.class);
+            xStream.processAnnotations(PictureBean.class);
+            pictureBean = (PictureBean) xStream.fromXML(inputStreamReader);
+        } catch (Exception e) {
+//            e.printStackTrace();
         } finally {
-            if (fileInputStream != null) {
-                try {
-                    fileInputStream.close();
-                } catch (IOException e1) {
-                }
-            }
             if (inputStreamReader != null) {
                 try {
                     inputStreamReader.close();
                 } catch (IOException e1) {
                 }
             }
-            if (reader != null) {
+            if (fileInputStream != null) {
                 try {
-                    reader.close();
+                    fileInputStream.close();
                 } catch (IOException e1) {
                 }
             }
         }
-
         return pictureBean;
     }
 }
