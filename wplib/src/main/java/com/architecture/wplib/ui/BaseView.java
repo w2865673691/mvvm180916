@@ -5,8 +5,11 @@ import android.app.Application;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
@@ -147,6 +150,10 @@ public abstract class BaseView {
 
     }
 
+    public void onDestroy() {
+
+    }
+
     public Context getContext() {
         Context context = null;
         if (service != null) {
@@ -159,12 +166,46 @@ public abstract class BaseView {
         return context;
     }
 
+
+
+
+    public void registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        checkNotNull(receiver);
+        checkNotNull(filter);
+        Context context = getContext();
+        context.registerReceiver(receiver, filter);
+    }
+
+    public void unregisterReceiver(BroadcastReceiver receiver) {
+        checkNotNull(receiver);
+        Context context = getContext();
+        context.unregisterReceiver(receiver);
+
+    }
+
     public void startService(@NonNull Class<?> cls) {
         checkNotNull(cls);
         Context context = getContext();
         Intent service = new Intent();
         service.setClass(context, cls);
         context.startService(service);
+    }
+
+    public void startActivity(@NonNull Class<?> cls) {
+        checkNotNull(cls);
+        Context context = getContext();
+        Intent intent = new Intent();
+        intent.setClass(context, cls);
+        context.startActivity(intent);
+    }
+
+    public void startActivity(@NonNull String pakName,String actName) {
+        checkNotNull(pakName);
+        checkNotNull(actName);
+        Context context = getContext();
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(pakName,actName));
+        context.startActivity(intent);
     }
 
     public static void replaceFragment(@NonNull FragmentManager fragmentManager,

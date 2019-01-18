@@ -18,5 +18,19 @@ public class ActivityMain extends BaseActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         viewImplMain.activity(this).bind(R.layout.activity_main,null);
+
+
+
+        //getSharedPreferences( "",  MODE_MULTI_PROCESS);
+        //https://blog.csdn.net/asjqkkkk/article/details/80714234
+        //https://blog.csdn.net/u012400885/article/details/53505597/
+//        https://blog.csdn.net/xiao_sier/article/details/78651414
+//        https://repo.eclipse.org/content/repositories/paho-releases/org/eclipse/paho/
+    }
+
+    @Override
+    protected void onDestroy() {
+        viewImplMain.onDestroy();
+        super.onDestroy();
     }
 }
