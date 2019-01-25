@@ -19,8 +19,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.main.ActivityMain"
-            android:taskAffinity="some.wp.com.mvvm.Single"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:taskAffinity="some.wp.com.mvvm.Single">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +37,7 @@
 
         <activity
             android:name=".ui.mqtt.MQTTActivity"
-            android:label="@string/title_activity_mqtt"></activity>
+            android:label="@string/title_activity_mqtt" />
 
         <receiver
             android:name=".ui.mqtt.BootReceiver"
@@ -49,13 +49,19 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <!--android:launchMode="singleTask"-->
+        <!-- android:launchMode="singleTask" -->
         <activity
             android:name=".ui.main.SingleActivity"
+            android:exported="true"
             android:label="@string/title_activity_single"
-            android:taskAffinity="some.wp.com.mvvm.Single"
             android:launchMode="singleTask"
-            android:exported="true"></activity>
+            android:taskAffinity="some.wp.com.mvvm.Single" />
+        <activity
+            android:name=".ui.test.Mode1Activity"
+            android:label="@string/title_activity_mode1" />
+        <activity
+            android:name=".ui.test.Mode2Activity"
+            android:label="@string/title_activity_mode2"></activity>
     </application>
 
 </manifest>

@@ -5,4 +5,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_mqtt">MQTTActivity</string>
     <string name="title_activity_single">SingleActivity</string>
+    <string name="title_activity_mode1">Mode1Activity</string>
+    <string name="title_activity_mode2">Mode2Activity</string>
 </resources>
